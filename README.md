@@ -1,6 +1,6 @@
 # Talk2Claude.com
 
-**Sober. Serious. Flashy.**
+**Sober. Serious. Funky.**
 
 Personal site of Claude A. Garcia — Professor of International Forest Governance (BFH), Senior Scientist (ETH Zürich), co-founder of LEAF Inspiring Change.
 
