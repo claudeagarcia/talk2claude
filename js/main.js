@@ -70,13 +70,16 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', () => {
       const btn = form.querySelector('button');
       const originalText = btn.textContent;
-      btn.textContent = 'Thank you!';
-      btn.style.background = 'var(--violet)';
-      form.querySelector('input[type="email"]').value = '';
+      // Delay the UI update so the form submits with the email value first
       setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = '';
-      }, 3000);
+        btn.textContent = 'Thank you!';
+        btn.style.background = 'var(--violet)';
+        form.querySelector('input[type="email"]').value = '';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = '';
+        }, 3000);
+      }, 100);
     });
   }
 
