@@ -60,19 +60,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('.newsletter-form');
   if (form) {
     form.addEventListener('submit', (e) => {
-      e.preventDefault();
       const email = form.querySelector('input[type="email"]').value;
       if (email) {
-        // Replace with actual newsletter service integration
-        const btn = form.querySelector('button');
-        const originalText = btn.textContent;
-        btn.textContent = 'Thank you';
-        btn.style.background = 'var(--violet)';
-        form.querySelector('input[type="email"]').value = '';
-        setTimeout(() => {
-          btn.textContent = originalText;
-          btn.style.background = '';
-        }, 3000);
+        // Send to Buttondown via fetch, then show thank you
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('email', email);
+
+        fetch('https://buttondown.com/api/emails/embed-subscribe/claude', {
+          method: 'POST',
+          body: formData,
+        }).then(() => {
+          const btn = form.querySelector('button');
+          const originalText = btn.textContent;
+          btn.textContent = 'Thank you!';
+          btn.style.background = 'var(--violet)';
+          form.querySelector('input[type="email"]').value = '';
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = '';
+          }, 3000);
+        }).catch(() => {
+          // If fetch fails, submit the form normally as fallback
+          form.submit();
+        });
       }
     });
   }
