@@ -2,7 +2,7 @@
 
 **Sober. Serious. Flashy.**
 
-Personal site of Claude A. Garcia — Professor of International Forest Governance (BFH), Senior Scientist (ETH Zürich), co-founder of LEAF Inspiring Change.
+Personal site of Claude A. Garcia — Professor of International Forest Governance (BFH), co-founder of LEAF Inspiring Change and president of Planet C Collective.
 
 ## Quick Deploy to GitHub Pages
 
