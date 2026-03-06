@@ -364,6 +364,191 @@
     </div>
   </div>
 </section>
+<!-- PARKOUR ESSENTIAL MAP — embed this section in index.html -->
+<!-- Sits between frameworks and essays sections -->
+<!-- Self-contained: no dependencies, matches dark theme -->
+
+<section id="parkour" style="padding:60px 0 40px;background:#06060a;position:relative;">
+  <div style="text-align:center;margin-bottom:20px;">
+    <span style="color:#C0392B;font-size:20px;font-weight:bold;letter-spacing:6px;font-family:'Courier New',monospace;">PARKOUR</span>
+    <p style="color:#444;font-size:12px;font-family:'Courier New',monospace;margin-top:6px;">An intellectual city map — pick a path, explore the work</p>
+    <p style="color:#282828;font-size:9px;font-family:'Courier New',monospace;margin-top:3px;">19 key landmarks · 5 paths · click to explore · scroll to zoom</p>
+  </div>
+  <div id="pk-controls" style="display:flex;justify-content:center;gap:5px;flex-wrap:wrap;margin-bottom:12px;padding:0 16px;"></div>
+  <div style="position:relative;width:100%;max-width:1000px;margin:0 auto;height:500px;overflow:hidden;border:1px solid #111;border-radius:4px;">
+    <svg id="pk-svg" width="100%" height="100%" style="cursor:grab;"></svg>
+    <div id="pk-panel" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,rgba(6,6,10,0.98),rgba(6,6,10,0.95) 80%,transparent);padding:28px 16px 12px;display:none;">
+      <div id="pk-panel-inner" style="max-width:600px;margin:0 auto;font-family:'Courier New',monospace;"></div>
+    </div>
+    <div id="pk-legend" style="position:absolute;bottom:8px;right:8px;background:rgba(6,6,10,0.9);border:1px solid #141418;padding:6px 8px;border-radius:3px;font-family:'Courier New',monospace;">
+      <div style="color:#444;font-size:7px;letter-spacing:2px">● Paper ◆ Talk ■ Media ⬡ Project</div>
+      <div style="color:#333;font-size:7px;margin-top:2px">large = must visit · medium = don't miss</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:16px;">
+    <a href="/parkour" style="color:#C0392B;font-size:11px;font-family:'Courier New',monospace;text-decoration:none;letter-spacing:2px;border:1px solid #C0392B30;padding:6px 20px;border-radius:16px;">EXPLORE THE FULL CITY →</a>
+  </div>
+</section>
+
+<script>
+(function(){
+const PK_PATHS = {
+  archetypes:{name:"4Gates",color:"#E74C3C",symbol:"◎"},
+  games:{name:"Games",color:"#9B59B6",symbol:"⬡"},
+  forests:{name:"Forests",color:"#2ECC71",symbol:"▲"},
+  wicked:{name:"Wicked",color:"#3498DB",symbol:"✦"},
+  planetc:{name:"Planet C",color:"#F39C12",symbol:"●"}
+};
+const PK_DISTRICTS = [
+  {name:"THE FORUM",x:170,y:190,color:"#E74C3C"},
+  {name:"THE FOREST TRAIL",x:780,y:170,color:"#2ECC71"},
+  {name:"THE FORGE",x:170,y:410,color:"#3498DB"},
+  {name:"THE FOREST LAB",x:680,y:450,color:"#27AE60"}
+];
+const PK = [
+  {id:"natsus",x:309,y:362,lang:"en",sal:4,title:"Strategy games to improve environmental policymaking",venue:"Nature Sustainability, 2022",year:2022,type:"paper",paths:["archetypes","games","forests","wicked","planetc"],desc:"The flagship paper. Five paths cross here."},
+  {id:"choices",x:276,y:398,lang:"en",sal:4,title:"Choices We Make in Times of Crisis",venue:"Sustainability, 2021",year:2021,type:"paper",paths:["archetypes","forests","wicked"],desc:"The Five Archetypes framework."},
+  {id:"fourgates",x:80,y:230,lang:"en",sal:4,title:"The Four Gates of Change",venue:"TEDxZurich Countdown, 2024",year:2024,type:"talk",paths:["archetypes"],url:"https://www.youtube.com/watch?v=GO9QgiwrLbo",desc:"Have I heard? Is this real? Does it matter? Can I change this?"},
+  {id:"tedxzurich",x:221,y:147,lang:"en",sal:4,title:"Wicked Games",venue:"TEDxZurich, 2018",year:2018,type:"talk",paths:["games","wicked"],url:"https://www.youtube.com/watch?v=v362bMWL0Yw",desc:"The first TEDx. The diving metaphor."},
+  {id:"planetc",x:222,y:163,lang:"en",sal:4,title:"Planet C — Play Again?",venue:"2022–present",year:2022,type:"project",paths:["games","planetc"],desc:"Strategy game for citizens and institutions."},
+  {id:"science2019",x:468,y:420,lang:"en",sal:4,title:"The global tree restoration potential",venue:"Science, 2019",year:2019,type:"paper",paths:["forests"],desc:"7,000+ citations. Changed the conversation."},
+  {id:"oneearth",x:320,y:570,lang:"en",sal:4,title:"The global forest transition as a human affair",venue:"One Earth, 2020",year:2020,type:"paper",paths:["forests","wicked"],desc:"Forest transitions are social, not ecological."},
+  {id:"counterinsurgency",x:183,y:378,lang:"en",sal:3,title:"Climate Counterinsurgency",venue:"Zenodo, 2024",year:2024,type:"paper",paths:["archetypes","wicked"],desc:"Amartya Sen meets climate action."},
+  {id:"fabrique",x:104,y:359,lang:"fr",sal:3,title:"Gouverner la forêt à l'heure de la transition",venue:"La Fabrique de la Cité, 2023",year:2023,type:"talk",paths:["archetypes","forests","wicked"],desc:"Three paths cross here."},
+  {id:"researchfeatures",x:161,y:253,lang:"en",sal:3,title:"Why facts are not enough",venue:"Research Features, 2023",year:2023,type:"media",paths:["archetypes","wicked"],desc:"The Five Archetypes explained."},
+  {id:"swissfound",x:167,y:227,lang:"en",sal:3,title:"Wake up Call",venue:"SwissFoundations, 2023",year:2023,type:"talk",paths:["archetypes","planetc"],desc:"13 billion USD in the room."},
+  {id:"tree",x:457,y:377,lang:"en",sal:3,title:"Games as Tools to Address Conservation Conflicts",venue:"TREE, 2018",year:2018,type:"paper",paths:["games","forests"],desc:"The academic backbone."},
+  {id:"gaia",x:439,y:298,lang:"en",sal:3,title:"Learning Begins When the Game Is Over",venue:"GAIA, 2016",year:2016,type:"paper",paths:["games","planetc"],desc:"The methodological manifesto."},
+  {id:"hunting",x:900,y:187,lang:"en",sal:3,title:"Hunting in times of change",venue:"Frontiers Ecol Evol, 2019",year:2019,type:"paper",paths:["games","forests"],desc:"Colombian Amazon fieldwork."},
+  {id:"consbio2010",x:860,y:307,lang:"en",sal:3,title:"Biodiversity in coffee agroforests",venue:"Conservation Biology, 2010",year:2010,type:"paper",paths:["forests"],desc:"Where it all began."},
+  {id:"nature2021",x:669,y:350,lang:"en",sal:3,title:"Unveiling African rainforest composition",venue:"Nature, 2021",year:2021,type:"paper",paths:["forests"],desc:"Published in Nature."},
+  {id:"frontiers2024",x:454,y:562,lang:"en",sal:3,title:"Forest transitions: restoration to conservation",venue:"Frontiers FGC, 2024",year:2024,type:"paper",paths:["forests"],desc:"The latest framework."},
+  {id:"lemondewicked",x:104,y:303,lang:"en",sal:3,title:"Energy transition & pension reform are wicked problems",venue:"Le Monde, 2023",year:2023,type:"media",paths:["wicked"],desc:"Post-normal science meets politics."},
+  {id:"pnas2013",x:482,y:443,lang:"en",sal:3,title:"Ten principles for a landscape approach",venue:"PNAS, 2013",year:2013,type:"paper",paths:["forests","wicked"],desc:"Foundational framework."}
+];
+
+const pkMap={};PK.forEach(n=>pkMap[n.id]=n);
+let pkActive=new Set(),pkSel=null,pkPan={x:0,y:0},pkZoom=1,pkPanning=false,pkLastM={x:0,y:0};
+
+function pkEdges(){
+  const edges=[];
+  Object.keys(PK_PATHS).forEach(pid=>{
+    const on=PK.filter(n=>n.paths.includes(pid)).sort((a,b)=>(a.x+a.y*0.6)-(b.x+b.y*0.6));
+    for(let i=0;i<on.length-1;i++) edges.push({from:on[i].id,to:on[i+1].id,path:pid});
+  });
+  return edges;
+}
+
+function pkColor(node){
+  const a=pkActive.size>0?node.paths.filter(p=>pkActive.has(p)):node.paths;
+  return a.length>=1?PK_PATHS[a[0]].color:(node.paths.length===1?PK_PATHS[node.paths[0]].color:"#ccc");
+}
+
+function pkRender(){
+  const svg=document.getElementById('pk-svg'),edges=pkEdges();
+  let h=`<defs><filter id="pkg"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <pattern id="pkd" width="25" height="25" patternUnits="userSpaceOnUse"><circle cx="12.5" cy="12.5" r="0.4" fill="#0f0f14"/></pattern></defs>
+  <g transform="translate(${pkPan.x},${pkPan.y}) scale(${pkZoom})">
+  <rect x="-100" y="-50" width="1200" height="750" fill="url(#pkd)"/>`;
+
+  PK_DISTRICTS.forEach(d=>{h+=`<text x="${d.x}" y="${d.y}" text-anchor="middle" fill="${d.color}" font-size="12" opacity="0.15" font-family="'Courier New',monospace" font-weight="bold" letter-spacing="5">${d.name}</text>`;});
+  h+=`<line x1="490" y1="0" x2="490" y2="650" stroke="#0e0e12" stroke-width="0.5"/><line x1="0" y1="320" x2="980" y2="320" stroke="#0e0e12" stroke-width="0.5"/>`;
+
+  edges.forEach(e=>{
+    const a=pkMap[e.from],b=pkMap[e.to];if(!a||!b)return;
+    const vis=pkActive.size===0||pkActive.has(e.path);
+    const hot=pkSel&&(e.from===pkSel||e.to===pkSel);
+    const pa=pkActive.size>0&&pkActive.has(e.path);
+    const same=edges.filter(x=>(x.from===e.from&&x.to===e.to)||(x.from===e.to&&x.to===e.from));
+    const idx=same.indexOf(e),off=(idx-(same.length-1)/2)*14;
+    const mx=(a.x+b.x)/2,my=(a.y+b.y)/2,dx=b.x-a.x,dy=b.y-a.y,len=Math.sqrt(dx*dx+dy*dy)||1;
+    h+=`<path d="M${a.x},${a.y} Q${mx+(-dy/len)*off},${my+(dx/len)*off} ${b.x},${b.y}" fill="none" stroke="${PK_PATHS[e.path].color}" stroke-width="${hot?3.5:pa?2.5:1.8}" opacity="${vis?(hot?0.85:pa?0.5:0.18):0.02}" stroke-linecap="round"/>`;
+  });
+
+  PK.forEach(node=>{
+    const sz=node.sal===4?26:18,isSel=pkSel===node.id;
+    const vis=pkActive.size===0||node.paths.some(p=>pkActive.has(p));
+    const op=vis?1:0.03;
+    const dc=pkColor(node),sc=isSel?"#fff":dc;
+    const sw=isSel?3:(node.sal>=4?2:1.5),fill=isSel?"#14141e":"#0a0a10";
+    const f=isSel?'filter="url(#pkg)"':'';
+    h+=`<g style="cursor:pointer;opacity:${op}" onclick="pkSelect('${node.id}')">`;
+    if(node.paths.length>=3) h+=`<circle cx="${node.x}" cy="${node.y}" r="${sz+12}" fill="none" stroke="#fff" stroke-width="0.4" opacity="0.15"/>`;
+    if(node.paths.length>=2) node.paths.forEach((pid,idx)=>{
+      const ra=pkActive.size===0||pkActive.has(pid);
+      h+=`<circle cx="${node.x}" cy="${node.y}" r="${sz+3+idx*4}" fill="none" stroke="${PK_PATHS[pid].color}" stroke-width="${ra?1.5:0.5}" opacity="${ra?0.3:0.08}"/>`;
+    });
+    if(node.type==="talk") h+=`<polygon points="${node.x},${node.y-sz} ${node.x+sz},${node.y} ${node.x},${node.y+sz} ${node.x-sz},${node.y}" fill="${fill}" stroke="${sc}" stroke-width="${sw}" ${f}/>`;
+    else if(node.type==="media"){const s8=sz*0.78;h+=`<rect x="${node.x-s8}" y="${node.y-s8}" width="${s8*2}" height="${s8*2}" rx="3" fill="${fill}" stroke="${sc}" stroke-width="${sw}" ${f}/>`;}
+    else if(node.type==="project"){const pts=Array.from({length:6},(_,i)=>{const a=Math.PI/6+(Math.PI/3)*i;return`${node.x+sz*Math.cos(a)},${node.y+sz*Math.sin(a)}`;}).join(" ");h+=`<polygon points="${pts}" fill="${fill}" stroke="${sc}" stroke-width="${sw}" ${f}/>`;}
+    else h+=`<circle cx="${node.x}" cy="${node.y}" r="${sz}" fill="${fill}" stroke="${sc}" stroke-width="${sw}" ${f}/>`;
+    h+=`<text x="${node.x}" y="${node.y+1}" text-anchor="middle" dominant-baseline="middle" fill="${dc}" font-size="${node.sal>=4?11:9}" font-family="'Courier New',monospace" font-weight="bold" style="pointer-events:none">${String(node.year).slice(-2)}</text>`;
+    if(node.sal>=4){const t=node.title.length>35?node.title.slice(0,33)+"…":node.title;h+=`<text x="${node.x}" y="${node.y+sz+14}" text-anchor="middle" fill="${dc}" font-size="7" opacity="0.5" font-family="'Courier New',monospace" style="pointer-events:none">${t}</text>`;}
+    if(node.lang==="fr") h+=`<text x="${node.x+sz+4}" y="${node.y-sz+4}" font-size="7" fill="#6ab0de" font-family="'Courier New',monospace" font-weight="bold" style="pointer-events:none">FR</text>`;
+    h+=`</g>`;
+  });
+  h+=`</g>`;
+  svg.innerHTML=h;
+  pkUpdatePanel();
+  pkRenderControls();
+}
+
+function pkRenderControls(){
+  const c=document.getElementById('pk-controls');
+  let h='';
+  Object.entries(PK_PATHS).forEach(([k,p])=>{
+    const on=pkActive.has(k),op=pkActive.size===0||on?1:0.35;
+    h+=`<button onclick="pkToggle('${k}')" style="border:1.5px solid ${p.color};color:${on?'#000':p.color};background:${on?p.color:'transparent'};font-weight:${on?'bold':'normal'};opacity:${op};border-radius:12px;padding:3px 10px;font-size:9px;cursor:pointer;letter-spacing:1px;font-family:'Courier New',monospace">${p.symbol} ${p.name}</button>`;
+  });
+  if(pkActive.size>0) h+=`<button onclick="pkClear()" style="border:1px solid #333;color:#555;background:transparent;border-radius:12px;padding:3px 8px;font-size:9px;cursor:pointer;font-family:'Courier New',monospace">all</button>`;
+  c.innerHTML=h;
+}
+
+function pkUpdatePanel(){
+  const p=document.getElementById('pk-panel'),pi=document.getElementById('pk-panel-inner');
+  if(!pkSel){p.style.display='none';return;}
+  const n=pkMap[pkSel];if(!n)return;
+  p.style.display='block';
+  const edges=pkEdges(),conn=new Set();
+  edges.forEach(e=>{if(e.from===pkSel)conn.add(e.to);if(e.to===pkSel)conn.add(e.from);});
+  const dc=pkColor(n);
+  let h=`<div style="display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap;align-items:center">`;
+  n.paths.forEach(pid=>{h+=`<span style="background:${PK_PATHS[pid].color}18;border:1px solid ${PK_PATHS[pid].color}40;color:${PK_PATHS[pid].color};padding:2px 10px;font-size:9px;border-radius:10px;letter-spacing:1px">${PK_PATHS[pid].symbol} ${PK_PATHS[pid].name}</span>`;});
+  const hub=n.paths.length>=5?"CENTRAL HUB":n.paths.length>=3?"major hub":n.paths.length>=2?"junction":"";
+  if(hub) h+=`<span style="color:#444;font-size:9px;letter-spacing:1px">— ${hub}</span>`;
+  h+=`</div>`;
+  h+=`<h2 style="color:#eee;font-size:17px;margin:0 0 4px;font-family:Georgia,serif;font-weight:normal;line-height:1.3">${n.title}</h2>`;
+  h+=`<p style="color:#777;font-size:11px;margin:0 0 6px;font-style:italic">${n.venue}</p>`;
+  h+=`<p style="color:#aaa;font-size:12.5px;line-height:1.6;margin:0 0 8px">${n.desc}</p>`;
+  if(conn.size>0){
+    h+=`<div style="margin-top:6px"><span style="color:#444;font-size:8px;letter-spacing:2px">PATHS FROM HERE →</span><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">`;
+    conn.forEach(cId=>{const cn=pkMap[cId];if(!cn)return;const ce=edges.find(e=>(e.from===pkSel&&e.to===cId)||(e.from===cId&&e.to===pkSel));const col=ce?PK_PATHS[ce.path].color:"#555";h+=`<button onclick="pkSelect('${cId}')" style="background:rgba(255,255,255,0.03);border:1px solid ${col}35;color:${col};padding:3px 9px;font-size:9px;cursor:pointer;border-radius:3px;font-family:'Courier New',monospace">${cn.title.length>35?cn.title.slice(0,33)+"…":cn.title}</button>`;});
+    h+=`</div></div>`;
+  }
+  if(n.url) h+=`<a href="${n.url}" target="_blank" rel="noopener" style="color:${dc};font-size:11px;margin-top:8px;display:inline-block;text-decoration:underline;text-underline-offset:3px">Watch / Listen →</a>`;
+  h+=`<button onclick="pkSelect(null)" style="position:absolute;top:8px;right:12px;background:none;border:1px solid #222;color:#555;padding:2px 8px;font-size:9px;cursor:pointer;border-radius:2px;font-family:'Courier New',monospace">✕</button>`;
+  pi.innerHTML=h;
+}
+
+window.pkToggle=function(p){if(pkActive.has(p))pkActive.delete(p);else pkActive.add(p);pkRender();};
+window.pkClear=function(){pkActive.clear();pkRender();};
+window.pkSelect=function(id){pkSel=pkSel===id?null:id;pkRender();};
+
+const pkSvg=document.getElementById('pk-svg');
+pkSvg.addEventListener('wheel',e=>{e.preventDefault();pkZoom*=e.deltaY>0?0.92:1.08;pkZoom=Math.min(3.5,Math.max(0.3,pkZoom));pkRender();},{passive:false});
+pkSvg.addEventListener('mousedown',e=>{if(!e.target.closest('g[onclick]')){pkPanning=true;pkLastM={x:e.clientX,y:e.clientY};}});
+pkSvg.addEventListener('mousemove',e=>{if(pkPanning){pkPan.x+=e.clientX-pkLastM.x;pkPan.y+=e.clientY-pkLastM.y;pkLastM={x:e.clientX,y:e.clientY};pkRender();}});
+pkSvg.addEventListener('mouseup',()=>{pkPanning=false;});
+pkSvg.addEventListener('mouseleave',()=>{pkPanning=false;});
+
+let pkLT=null,pkLD=null;
+pkSvg.addEventListener('touchstart',e=>{if(e.touches.length===1){pkPanning=true;pkLastM={x:e.touches[0].clientX,y:e.touches[0].clientY};}if(e.touches.length===2){pkLD=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}},{passive:true});
+pkSvg.addEventListener('touchmove',e=>{if(e.touches.length===1&&pkPanning){pkPan.x+=e.touches[0].clientX-pkLastM.x;pkPan.y+=e.touches[0].clientY-pkLastM.y;pkLastM={x:e.touches[0].clientX,y:e.touches[0].clientY};pkRender();}if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(pkLD){pkZoom*=d/pkLD;pkZoom=Math.min(3.5,Math.max(0.3,pkZoom));pkRender();}pkLD=d;}},{passive:true});
+pkSvg.addEventListener('touchend',()=>{pkPanning=false;pkLD=null;});
+
+pkRender();
+})();
+</script>
 
 <!-- ═══════════════════════ ESSAYS ═══════════════════════ -->
 <section class="essays section-line" id="essays">
