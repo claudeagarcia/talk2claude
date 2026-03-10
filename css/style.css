@@ -403,7 +403,7 @@ nav {
   border: 1px solid rgba(184, 178, 168, 0.06);
   transition: all 0.4s var(--ease-out);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   cursor: pointer;
 }
 
@@ -461,7 +461,7 @@ nav {
 /* Expandable content */
 .card-expanded {
   max-height: 0;
-  overflow: hidden;
+  overflow: visible;
   transition: max-height 0.5s var(--ease-out), margin-top 0.3s;
   margin-top: 0;
 }
@@ -469,6 +469,7 @@ nav {
 .card-expanded.open {
   max-height: 2000px;
   margin-top: 1.5rem;
+  overflow: visible;
 }
 
 .card-expanded-inner {
