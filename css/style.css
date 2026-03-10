@@ -467,7 +467,7 @@ nav {
 }
 
 .card-expanded.open {
-  max-height: 600px;
+  max-height: 2000px;
   margin-top: 1.5rem;
 }
 
