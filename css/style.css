@@ -17,7 +17,7 @@
   --violet-glow: rgba(123, 45, 142, 0.3);
   --violet-dim: rgba(123, 45, 142, 0.1);
   --cream: #f0ece4;
-  --cream-muted: #9e998f;
+  --cream-muted: #b8b4ac;
   --cream-bright: #faf8f4;
   --gradient-brand: linear-gradient(135deg, var(--red), var(--violet-light));
   --gradient-line: linear-gradient(to right, transparent, var(--red), var(--violet), transparent);
@@ -36,7 +36,7 @@ body {
   background: var(--black);
   color: var(--cream);
   font-family: var(--font-body);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   overflow-x: hidden;
 }
@@ -482,7 +482,13 @@ nav {
 
 .card-expanded-inner p { margin-bottom: 1rem; }
 .card-expanded-inner strong { color: var(--cream); font-weight: 600; }
-
+.card-link {
+  color: var(--red);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.3s;
+}
+.card-link:hover { color: var(--red-glow); }
 .card-toggle {
   display: inline-flex;
   align-items: center;
