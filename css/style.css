@@ -394,7 +394,9 @@ nav {
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 2rem; 
+  align-items: start;
+
 }
 
 .framework-card {
@@ -403,7 +405,6 @@ nav {
   border: 1px solid rgba(184, 178, 168, 0.06);
   transition: all 0.4s var(--ease-out);
   position: relative;
-  overflow: hidden;
   cursor: pointer;
 }
 
